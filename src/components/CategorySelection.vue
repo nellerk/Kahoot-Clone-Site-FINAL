@@ -58,7 +58,8 @@ export default {
         { name: "Szoftverfejlesztés és Webfejlesztés" },
       ],
       scores: {}, // Objektum a pontszámok tárolására
-      apiBaseUrl: "http://localhost:5136/api", // API URL
+      //apiBaseUrl: "http://localhost:5136/api", // Local API URL
+      apiBaseUrl: 'https://szakmasztarapi.runasp.net/api' // Published API URL
     };
   },
   computed: {

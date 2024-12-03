@@ -44,7 +44,8 @@
     data() {
       return {
         userScores: [],
-        apiBaseUrl: "http://localhost:5136/api", // API URL
+        //apiBaseUrl: "http://localhost:5136/api", // Local API URL
+        apiBaseUrl: 'https://szakmasztarapi.runasp.net/api', // Published API URL
         loggedInUser: "Betöltés alatt..." // Kezdeti érték a felhasználó nevének
       };
     },

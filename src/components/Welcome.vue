@@ -31,7 +31,8 @@ export default {
   data() {
     return {
       username: '', // A felhasználó neve
-      apiBaseUrl: 'http://localhost:5136/api', // Az API alap URL-je
+      //apiBaseUrl: 'http://localhost:5136/api', // Local API URL
+      apiBaseUrl: 'https://szakmasztarapi.runasp.net/api' // Published API URL
     };
   },
   methods: {
