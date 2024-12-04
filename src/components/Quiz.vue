@@ -274,16 +274,22 @@ restartQuiz() {
   this.saveScore();
 
   // Alapértelmezett értékek visszaállítása
-  this.currentQuestionIndex = 0;
-  this.selectedAnswers = [];
-  this.score = 0;
-  this.userAnswers = [];
-  this.showCorrectAnswer = false;
+ // Késleltetés 2 másodpercig
+ setTimeout(() => {
+    // Alapértelmezett értékek visszaállítása
+    this.currentQuestionIndex = 0; 
+    this.selectedAnswers = []; 
+    this.score = 0; 
+    this.userAnswers = []; 
+    this.showCorrectAnswer = false; 
+    
+    // Kategória oldalra ugrás és újratöltés
+    this.$router.push(`/categories/${this.year}`).then(() => {
+      window.location.reload(); // Az oldal újratöltése
+    });
 
-  // Kategória oldalra ugrás és újratöltés
-  this.$router.push(`/categories/${this.year}`).then(() => {
-    window.location.reload(); // Az oldal újratöltése
-  });
+    console.log("Újratöltés megtörtént 2 másodperc után.");
+  }, 2000); // 2 másodperces késleltetés
 },
     mounted() {
       if (!this.userId) {
