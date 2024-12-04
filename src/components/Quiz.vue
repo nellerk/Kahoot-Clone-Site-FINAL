@@ -274,9 +274,6 @@ restartQuiz() {
   this.saveScore();
 
   // Alapértelmezett értékek visszaállítása
- // Késleltetés 2 másodpercig
- setTimeout(() => {
-    // Alapértelmezett értékek visszaállítása
     this.currentQuestionIndex = 0; 
     this.selectedAnswers = []; 
     this.score = 0; 
@@ -289,7 +286,6 @@ restartQuiz() {
     });
 
     console.log("Újratöltés megtörtént 2 másodperc után.");
-  }, 2000); // 2 másodperces késleltetés
 },
     mounted() {
       if (!this.userId) {
