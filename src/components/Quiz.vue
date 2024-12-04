@@ -203,7 +203,7 @@
       this.showCorrectAnswer = true;
 
       // Továbblépés a következő kérdésre 1,5 másodperc után
-      setTimeout(this.nextQuestion, 100);
+      setTimeout(this.nextQuestion, 1500);
     },
     nextQuestion() {
       this.userAnswers.push([...this.selectedAnswers]); // Save user selections
@@ -289,7 +289,7 @@ restartQuiz() {
     });
 
     console.log("Újratöltés megtörtént 2 másodperc után.");
-  }, 20000); // 2 másodperces késleltetés
+  }, 2000); // 2 másodperces késleltetés
 },
     mounted() {
       if (!this.userId) {
