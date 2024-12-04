@@ -284,8 +284,6 @@ restartQuiz() {
     this.$router.push(`/categories/${this.year}`).then(() => {
       window.location.reload(); // Az oldal újratöltése
     });
-
-    console.log("Újratöltés megtörtént 2 másodperc után.");
 },
     mounted() {
       if (!this.userId) {
