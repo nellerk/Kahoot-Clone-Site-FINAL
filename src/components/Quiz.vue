@@ -289,7 +289,7 @@ restartQuiz() {
     });
 
     console.log("Újratöltés megtörtént 2 másodperc után.");
-  }, 2000); // 2 másodperces késleltetés
+  }, 20000); // 2 másodperces késleltetés
 },
     mounted() {
       if (!this.userId) {
