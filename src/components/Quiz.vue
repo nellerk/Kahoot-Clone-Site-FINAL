@@ -170,7 +170,7 @@ export default {
 
       this.showCorrectAnswer = true;
       this.saveScore();
-      setTimeout(this.nextQuestion, 100);
+      setTimeout(this.nextQuestion, 1500);
     },
     nextQuestion() {
       this.userAnswers.push([...this.selectedAnswers]);
