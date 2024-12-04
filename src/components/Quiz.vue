@@ -179,7 +179,7 @@
       this.showCorrectAnswer = true;
 
       // Továbblépés a következő kérdésre 1,5 másodperc után
-      setTimeout(this.nextQuestion, 100);
+      setTimeout(this.nextQuestion, 1500);
     },
     nextQuestion() {
       this.userAnswers.push([...this.selectedAnswers]); // Save user selections
