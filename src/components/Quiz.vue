@@ -209,10 +209,12 @@
       return 'bg-gray-200 text-gray-700 hover:bg-blue-100';
     },
     cancelQuiz() {
-      this.$router.push({
-        path: `/categories/${this.year}`,
-        query: { userId: this.userId },
-      });
+      if (confirm("Biztosan meg akarod szakítani a kérdéssor kitöltését? Az eddigi válaszok nem lesznek mentve.")) {
+        this.$router.push({
+          path: `/categories/${this.year}`,
+          query: { userId: this.userId },
+        });
+      }
     },
     async saveScore() {
       if (!this.userId) {
