@@ -1,27 +1,37 @@
 <template>
-  
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="absolute top-4 right-4 bg-gray-200 text-gray-700 rounded-lg px-4 py-2 font-semibold">
+  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div
+      class="absolute top-4 right-4 bg-gray-200 text-gray-700 rounded-lg px-4 py-2 font-semibold"
+    >
       Pontok: {{ totalPoints }}
     </div>
     <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-      <h1 class="text-center text-2xl font-semibold mb-4">{{ category }} Quiz</h1>
-      
+      <h1 class="text-center text-2xl font-semibold mb-4">
+        {{ category }} Quiz
+      </h1>
+
       <!-- Haladási sáv -->
-      <div v-if="currentQuestionIndex < questions.length" class="progress-container mb-4">
-        <progress :value="currentQuestionIndex + 1" :max="questions.length"></progress>
+      <div
+        v-if="currentQuestionIndex < questions.length"
+        class="progress-container mb-4"
+      >
+        <progress
+          :value="currentQuestionIndex + 1"
+          :max="questions.length"
+        ></progress>
         <p class="text-center text-sm text-gray-600">
           {{ currentQuestionIndex + 1 }} / {{ questions.length }} kérdés
         </p>
       </div>
 
-
       <div v-if="currentQuestionIndex < questions.length">
         <p class="text-lg text-gray-700 mb-6">{{ currentQuestion.text }}</p>
 
         <!-- Kérdés pontszáma -->
-        <p class="question-info text-center font-semibold mb-4">Ez a kérdés {{ currentQuestion.maxPoints }} pontot ér.</p>
-        
+        <p class="question-info text-center font-semibold mb-4">
+          Ez a kérdés {{ currentQuestion.maxPoints }} pontot ér.
+        </p>
+
         <!-- Kép megjelenítése, ha van -->
         <div v-if="currentQuestion.imageUrl" class="mb-6">
           <img
@@ -30,78 +40,92 @@
             class="w-full h-auto rounded-lg shadow-sm"
           />
         </div>
-        
 
         <!-- Válaszok listája -->
         <ul class="space-y-4">
           <li v-for="(answerText, key) in currentQuestion.answers" :key="key">
-          <button
-            @click="selectAnswer(key)"
-            :disabled="showCorrectAnswer"
-            :class="getAnswerClass(key)"
-            class="w-full py-3 px-4 rounded-lg text-left font-medium transition-colors duration-150 whitespace-normal break-words min-h-[50px] max-h-[150px] overflow-y-auto"
-          >
-            {{ answerText }}
-          </button>
-        </li>
-</ul>
+            <button
+              @click="selectAnswer(key)"
+              :disabled="showCorrectAnswer"
+              :class="getAnswerClass(key)"
+              class="w-full py-3 px-4 rounded-lg text-left font-medium transition-colors duration-150 whitespace-normal break-words min-h-[50px] max-h-[150px] overflow-y-auto"
+            >
+              {{ answerText }}
+            </button>
+          </li>
+        </ul>
 
-<button
-  v-if="selectedAnswers.length > 0 && !showCorrectAnswer"
-  @click="revealCorrectAnswer"
-  class="mt-6 w-full py-3 px-4 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors duration-150"
->
-  Következő kérdés
-</button>
-<button
-  @click="cancelQuiz"
-  class="mt-6 w-full py-3 px-4 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors duration-150"
->
-  Kérdéssor megszakítása
-</button>
-</div>
+        <button
+          v-if="selectedAnswers.length > 0 && !showCorrectAnswer"
+          @click="revealCorrectAnswer"
+          class="mt-6 w-full py-3 px-4 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors duration-150"
+        >
+          Következő kérdés
+        </button>
+        <button
+          @click="cancelQuiz"
+          class="mt-6 w-full py-3 px-4 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors duration-150"
+        >
+          Kérdéssor megszakítása
+        </button>
+      </div>
 
-    <!-- Eredmény megjelenítése -->
-    <div v-else class="text-center">
+      <!-- Eredmény megjelenítése -->
+      <div v-else class="text-center">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Eredmény</h2>
-        <p class="text-lg text-gray-700 mb-6">Helyes válaszok száma: {{ score }} / {{ questions.length }}</p>
-        <p class="text-lg text-gray-700 mb-6">Összes pontszám: {{ totalPoints }}</p>
-  
+        <p class="text-lg text-gray-700 mb-6">
+          Helyes válaszok száma: {{ score }} / {{ questions.length }}
+        </p>
+        <p class="text-lg text-gray-700 mb-6">
+          Összes pontszám: {{ totalPoints }}
+        </p>
 
         <!-- Visszajelzés a kérdésekről -->
-        <div v-for="(question, index) in questions" :key="index" class="mb-4 text-left">
-  <p class="font-semibold">{{ index + 1 }}. {{ question.text }}</p>
-  <ul class="ml-4 mt-2">
-    <li
-      v-for="(answer, i) in question.answers"
-      :key="i"
-      :class="{
-        'text-green-600 font-semibold': question.correctAnswers.includes(i) && userAnswers[index]?.includes(i),
-        'text-yellow-500 font-semibold': question.correctAnswers.includes(i) && !userAnswers[index]?.includes(i),
-        'text-red-500 font-semibold': !question.correctAnswers.includes(i) && userAnswers[index]?.includes(i),
-        'text-gray-700': !userAnswers[index]?.includes(i) && !question.correctAnswers.includes(i)
-      }"
-      class="ml-2"
-    >
-      {{ answer }}
-    </li>
-  </ul>
-</div>
+        <div
+          v-for="(question, index) in questions"
+          :key="index"
+          class="mb-4 text-left"
+        >
+          <p class="font-semibold">{{ index + 1 }}. {{ question.text }}</p>
+          <ul class="ml-4 mt-2">
+            <li
+              v-for="(answer, i) in question.answers"
+              :key="i"
+              :class="{
+                'text-green-600 font-semibold':
+                  question.correctAnswers.includes(i) &&
+                  userAnswers[index]?.includes(i),
+                'text-yellow-500 font-semibold':
+                  question.correctAnswers.includes(i) &&
+                  !userAnswers[index]?.includes(i),
+                'text-red-500 font-semibold':
+                  !question.correctAnswers.includes(i) &&
+                  userAnswers[index]?.includes(i),
+                'text-gray-700':
+                  !userAnswers[index]?.includes(i) &&
+                  !question.correctAnswers.includes(i),
+              }"
+              class="ml-2"
+            >
+              {{ answer }}
+            </li>
+          </ul>
+        </div>
 
-      <button
-        @click="restartQuiz"
-        class="mt-6 w-full py-3 px-4 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors duration-150"
-      >
-        Vissza a kategóriákhoz
-      </button>
+        <button
+          @click="restartQuiz"
+          class="mt-6 w-full py-3 px-4 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors duration-150"
+        >
+          Vissza a kategóriákhoz
+        </button>
       </div>
     </div>
-</div>
+  </div>
 </template>
-  
-  <script>
+
+<script>
   import axios from 'axios';
-  
+
   export default {
     props: ['year', 'category'],
     data() {
@@ -215,44 +239,52 @@
       });
     },
     async saveScore() {
-      if (!this.userId) {
-        console.error('Hiba: Nincs userId, nem lehet pontszámot menteni.');
-        return;
-      }
-      try {
-        const response = await axios.post(`${this.apiBaseUrl}/scores`, {
-          userId: this.userId, // Felhasználó ID
-          year: this.year, // Év
-          category: this.category, // Kategória
-          points: this.totalPoints, // Pontszám
-        });
-        console.log('Pontszám mentve:', response.data);
-      } catch (error) {
-        console.error('Hiba a pontszám mentésekor:', error);
-      }
-    },
-      restartQuiz() {
-          if (!this.userId) {
-            this.userId = parseInt(localStorage.getItem("userId"), 10); // Újratöltés szükség esetén
-          }
-        this.$emit('quizEnded'); // Kibocsátja az eseményt, ha a szülő komponens hallgat rá
-        this.saveScore(); // Pontok mentése az adatbázisba
-        this.currentQuestionIndex = 0; // Visszaállítás az első kérdésre
-        this.selectedAnswers = []; // Választott válaszok nullázása
-        this.score = 0; // Pontszám lenullázása
-        this.userAnswers = []; // Felhasználói válaszok törlése
-        this.showCorrectAnswer = false; // Visszaállítás alapállapotba
-        
-        // this.$router.push(`/categories/${this.year}`);
-        // this.fetchQuestions(); // Reload questions when restarting
+  if (!this.userId) {
+    console.error('Hiba: Nincs userId, nem lehet pontszámot menteni.');
+    return;
+  }
 
+  // Pontszám konzolra írása mentés előtt
+  console.log(`Mentésre kerülő pontszám: ${this.totalPoints}`);
 
-        // Újratölti az oldalt, miután visszalépünk a kategóriákhoz
-        this.$router.push(`/categories/${this.year}`).then(() => {
-        window.location.reload(); // Az oldal újratöltése
-        });
-      }
-    },
+  try {
+    const response = await axios.post(`${this.apiBaseUrl}/scores`, {
+      userId: this.userId, // Felhasználó ID
+      year: this.year, // Év
+      category: this.category, // Kategória
+      points: this.totalPoints, // Pontszám
+    });
+
+    // Sikeres mentés után kiírja az ID-t és a pontszámot
+    console.log(`A(z) ${this.userId} - ${this.totalPoints} - al adta be a feladatot.`);
+    console.log('Pontszám mentve:', response.data);
+  } catch (error) {
+    console.error('Hiba a pontszám mentésekor:', error);
+  }
+},
+
+restartQuiz() {
+  if (!this.userId) {
+    this.userId = parseInt(localStorage.getItem("userId"), 10); // Újratöltés szükség esetén
+  }
+
+  this.$emit('quizEnded'); // Kibocsátja az eseményt, ha a szülő komponens hallgat rá
+
+  // Pontok mentése az adatbázisba
+  this.saveScore();
+
+  // Alapértelmezett értékek visszaállítása
+  this.currentQuestionIndex = 0;
+  this.selectedAnswers = [];
+  this.score = 0;
+  this.userAnswers = [];
+  this.showCorrectAnswer = false;
+
+  // Kategória oldalra ugrás és újratöltés
+  this.$router.push(`/categories/${this.year}`).then(() => {
+    window.location.reload(); // Az oldal újratöltése
+  });
+},
     mounted() {
       if (!this.userId) {
         this.userId = parseInt(localStorage.getItem("userId"), 10); // Töltse be újra a localStorage-ből
@@ -262,8 +294,9 @@
       console.log('Quiz.vue category:', this.category);
       this.fetchQuestions();
     }
-  };
-  </script>
+  }
+}
+</script>
 
 <style>
 .absolute {
@@ -317,6 +350,4 @@ progress {
   text-align: center;
   font-weight: bold;
 }
-
 </style>
-  
