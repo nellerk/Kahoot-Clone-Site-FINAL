@@ -31,7 +31,7 @@
             <td class="border border-gray-300 p-2">{{ user.scores['Hálózatok'] || 'nincs adat' }}</td>
             <td class="border border-gray-300 p-2">{{ user.scores['Programozás és Adatbázis Kezelés'] || 'nincs adat' }}</td>
             <td class="border border-gray-300 p-2">{{ user.scores['Szoftverfejlesztés és Webfejlesztés'] || 'nincs adat' }}</td>
-            <td class="border border-gray-300 p-2">{{ calculateTotalScore(user.scores) }}</td>
+            <td class="border border-gray-300 p-2">{{ calculateTotalScore(user.scores) }} pont ({{ calculatePercentage(user.scores) }}%)</td>
           </tr>
         </tbody>
       </table>
@@ -68,7 +68,11 @@
     return Object.values(scores).reduce((total, points) => {
       return total + (points || 0);
     }, 0);
-  }
+    },
+    calculatePercentage(scores) {
+      const total = Object.values(scores).reduce((sum, score) => sum + (score || 0), 0);
+      return ((total / 300) * 100).toFixed(2); // Az összpontszám százalékos értéke
+    }
   },
   mounted() {
         // Betöltjük a statisztikákat
