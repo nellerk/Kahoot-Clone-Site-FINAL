@@ -21,6 +21,7 @@
             <th class="border border-gray-300 p-2">Hálózatok</th>
             <th class="border border-gray-300 p-2">Programozás és Adatbázis Kezelés</th>
             <th class="border border-gray-300 p-2">Szoftverfejlesztés és Webfejlesztés</th>
+            <th class="border border-gray-300 p-2">Összteljesítmény</th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +31,7 @@
             <td class="border border-gray-300 p-2">{{ user.scores['Hálózatok'] || 'nincs adat' }}</td>
             <td class="border border-gray-300 p-2">{{ user.scores['Programozás és Adatbázis Kezelés'] || 'nincs adat' }}</td>
             <td class="border border-gray-300 p-2">{{ user.scores['Szoftverfejlesztés és Webfejlesztés'] || 'nincs adat' }}</td>
+            <td class="border border-gray-300 p-2">{{ calculateTotalScore(user.scores) }}</td>
           </tr>
         </tbody>
       </table>
@@ -61,6 +63,12 @@
     goBackToCategories() {
       this.$router.push({ path: `/categories/${this.year}`, query: { userId: this.$route.query.userId } });
     },
+    calculateTotalScore(scores) {
+    // Összegzi az összes kategóriapontot, kihagyva a 'nincs adat' értékeket
+    return Object.values(scores).reduce((total, points) => {
+      return total + (points || 0);
+    }, 0);
+  }
   },
   mounted() {
         // Betöltjük a statisztikákat
